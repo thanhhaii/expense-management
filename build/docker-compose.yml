@@ -1,0 +1,16 @@
+version: "3"
+services:
+  database:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: expense_management
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: expense_management
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
