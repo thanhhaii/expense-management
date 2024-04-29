@@ -1,9 +1,9 @@
 package usertransport
 
 import (
-	userbiz "basicproject/internal/user/business"
-	usermodel "basicproject/internal/user/model"
-	userstorage "basicproject/internal/user/storage"
+	"basicproject/internal/module/user/business"
+	"basicproject/internal/module/user/model"
+	"basicproject/internal/module/user/storage"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 	"net/http"

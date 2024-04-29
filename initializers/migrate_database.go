@@ -1,6 +1,8 @@
 package initializers
 
-import usermodel "basicproject/internal/user/model"
+import (
+	"basicproject/internal/module/user/model"
+)
 
 func AutoSyncDatabase() {
 	err := DB.AutoMigrate(&usermodel.User{})
