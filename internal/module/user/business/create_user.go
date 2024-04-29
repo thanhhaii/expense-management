@@ -1,10 +1,10 @@
 package userbiz
 
 import (
+	"basicproject/internal/module/user/model"
 	"context"
 	"errors"
-
-	usermodel "basicproject/internal/user/model"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type CreateUserStorage interface {
@@ -30,5 +30,11 @@ func (biz *createUserBiz) CreateUser(ctx context.Context, data *usermodel.User) 
 		return errors.New("Passowrd cannot be blank")
 	}
 
+	hashPassword, err := bcrypt.GenerateFromPassword([]byte(data.Password), 10)
+	if err != nil {
+		return err
+	}
+
+	data.Password = string(hashPassword)
 	return biz.store.CreateUser(ctx, data)
 }

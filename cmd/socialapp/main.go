@@ -2,8 +2,8 @@ package main
 
 import (
 	"basicproject/initializers"
+	"basicproject/internal/module/user/transport"
 	tokenfactory "basicproject/internal/token_factory"
-	usertransport "basicproject/internal/user/transport"
 	"github.com/golang-jwt/jwt/v5"
 	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
@@ -18,7 +18,7 @@ func init() {
 }
 
 type Service struct {
-	TokenFactory tokenfactory.TokenFactory
+	tokenFactory tokenfactory.TokenFactory
 }
 
 func main() {
@@ -33,17 +33,18 @@ func main() {
 		},
 	}))
 
-	_ = &Service{
-		TokenFactory: tokenfactory.CreateTokenFactory(
+	service := &Service{
+		tokenFactory: tokenfactory.CreateTokenFactory(
 			[]byte("secret-key"),
-			jwt.SigningMethodES256,
+			jwt.SigningMethodHS256,
 		),
 	}
 
 	v1 := e.Group("/v1")
 	user := v1.Group("/user")
 	{
-		user.POST("/create-user", usertransport.HandleCreateUser(initializers.DB))
+		user.POST("/sign-up", usertransport.HandleCreateUser(initializers.DB))
+		user.POST("/sign-in", usertransport.HandleSignIn(initializers.DB, service.tokenFactory))
 	}
 
 	e.Logger.Fatal(e.Start(":1323"))

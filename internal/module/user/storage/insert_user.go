@@ -1,9 +1,8 @@
 package userstorage
 
 import (
+	"basicproject/internal/module/user/model"
 	"context"
-
-	usermodel "basicproject/internal/user/model"
 )
 
 func (storage *postgreStorage) CreateUser(
