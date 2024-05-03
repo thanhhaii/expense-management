@@ -2,6 +2,7 @@ package main
 
 import (
 	"basicproject/initializers"
+	transactiontransport "basicproject/internal/module/transaction/transport"
 	"basicproject/internal/module/user/transport"
 	tokenfactory "basicproject/internal/token_factory"
 	"github.com/golang-jwt/jwt/v5"
@@ -45,6 +46,11 @@ func main() {
 	{
 		user.POST("/sign-up", usertransport.HandleCreateUser(initializers.DB))
 		user.POST("/sign-in", usertransport.HandleSignIn(initializers.DB, service.tokenFactory))
+	}
+
+	transaction := v1.Group("/transaction")
+	{
+		transaction.POST("/create", transactiontransport.HandleCreateTransaction(initializers.DB))
 	}
 
 	e.Logger.Fatal(e.Start(":1323"))
